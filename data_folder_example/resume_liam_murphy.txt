@@ -52,4 +52,3 @@ English - Native
 Spanish - Professional
 Interests
 Full-Stack Development, Software Architecture, IoT system design and development, Artificial Intelligence, Cloud Technologies
-

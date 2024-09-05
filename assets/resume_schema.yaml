@@ -1,3 +1,4 @@
+---
 # YAML Schema for plain_text_resume.yaml
 
 personal_information:
@@ -78,7 +79,7 @@ languages:
     type: object
     properties:
       language: {type: string}
-      proficiency: {type: string, enum: [Native, Fluent, Intermediate, Beginner]}
+      proficiency: {type: string, enum: ["native", "fluent", "intermediate", "beginner"]}
     required: [language, proficiency]
 
 interests:
@@ -102,31 +103,45 @@ self_identification:
   properties:
     gender: {type: string}
     pronouns: {type: string}
-    veteran: {type: string, enum: [Yes, No]}
-    disability: {type: string, enum: [Yes, No]}
+    veteran: {type: string, enum: ["Yes", "No"]}
+    disability: {type: string, enum: ["Yes", "No"]}
     ethnicity: {type: string}
   required: [gender, pronouns, veteran, disability, ethnicity]
 
 legal_authorization:
   type: object
   properties:
-    eu_work_authorization: {type: string, enum: [Yes, No]}
-    us_work_authorization: {type: string, enum: [Yes, No]}
-    requires_us_visa: {type: string, enum: [Yes, No]}
-    requires_us_sponsorship: {type: string, enum: [Yes, No]}
-    requires_eu_visa: {type: string, enum: [Yes, No]}
-    legally_allowed_to_work_in_eu: {type: string, enum: [Yes, No]}
-    legally_allowed_to_work_in_us: {type: string, enum: [Yes, No]}
-    requires_eu_sponsorship: {type: string, enum: [Yes, No]}
-  required: [eu_work_authorization, us_work_authorization, requires_us_visa, requires_us_sponsorship, requires_eu_visa, legally_allowed_to_work_in_eu, legally_allowed_to_work_in_us, requires_eu_sponsorship]
+    eu_work_authorization: {type: string, enum: ["Yes", "No"]}
+    us_work_authorization: {type: string, enum: ["Yes", "No"]}
+    requires_us_visa: {type: string, enum: ["Yes", "No"]}
+    requires_us_sponsorship: {type: string, enum: ["Yes", "No"]}
+    requires_eu_visa: {type: string, enum: ["Yes", "No"]}
+    legally_allowed_to_work_in_eu: {type: string, enum: ["Yes", "No"]}
+    legally_allowed_to_work_in_us: {type: string, enum: ["Yes", "No"]}
+    requires_eu_sponsorship: {type: string, enum: ["Yes", "No"]}
+  required:
+    - eu_work_authorization
+    - us_work_authorization
+    - requires_us_visa
+    - requires_us_sponsorship
+    - requires_eu_visa
+    - legally_allowed_to_work_in_eu
+    - legally_allowed_to_work_in_us
+    - requires_eu_sponsorship
 
 work_preferences:
   type: object
   properties:
-    remote_work: {type: string, enum: [Yes, No]}
-    in_person_work: {type: string, enum: [Yes, No]}
-    open_to_relocation: {type: string, enum: [Yes, No]}
-    willing_to_complete_assessments: {type: string, enum: [Yes, No]}
-    willing_to_undergo_drug_tests: {type: string, enum: [Yes, No]}
-    willing_to_undergo_background_checks: {type: string, enum: [Yes, No]}
-  required: [remote_work, in_person_work, open_to_relocation, willing_to_complete_assessments, willing_to_undergo_drug_tests, willing_to_undergo_background_checks]
+    remote_work: {type: string, enum: ["Yes", "No"]}
+    in_person_work: {type: string, enum: ["Yes", "No"]}
+    open_to_relocation: {type: string, enum: ["Yes", "No"]}
+    willing_to_complete_assessments: {type: string, enum: ["Yes", "No"]}
+    willing_to_undergo_drug_tests: {type: string, enum: ["Yes", "No"]}
+    willing_to_undergo_background_checks: {type: string, enum: ["Yes", "No"]}
+  required:
+    - remote_work
+    - in_person_work
+    - open_to_relocation
+    - willing_to_complete_assessments
+    - willing_to_undergo_drug_tests
+    - willing_to_undergo_background_checks

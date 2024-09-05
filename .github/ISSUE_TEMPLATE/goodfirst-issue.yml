@@ -1,3 +1,4 @@
+---
 name: Good first issue
 description: Suitable for newcomers or those new to the project.
 title: "[GOOD FIRST ISSUE]: <Provide a descriptive title>"
@@ -8,7 +9,9 @@ body:
   - type: markdown
     attributes:
       value: |
-        Welcome to contributing to our project! This issue is marked as a "Good First Issue," which means it is a great starting point for new contributors. Please provide the following information to help us understand your issue.
+        Welcome to contributing to our project! This issue is marked as a "Good First Issue,"
+        which means it is a great starting point for new contributors. Please provide the
+        following information to help us understand your issue.
 
   - type: input
     id: issue_summary

@@ -12,27 +12,27 @@ class Job:
     pdf_path: str = ""
     recruiter_link: str = ""
 
-    def set_summarize_job_description(self, summarize_job_description):
+    def set_summarize_job_description(self, summarize_job_description: str) -> None:
         self.summarize_job_description = summarize_job_description
 
-    def set_job_description(self, description):
+    def set_job_description(self, description: str) -> None:
         self.description = description
 
-    def set_recruiter_link(self, recruiter_link):
+    def set_recruiter_link(self, recruiter_link: str) -> None:
         self.recruiter_link = recruiter_link
 
-    def formatted_job_information(self):
+    def formatted_job_information(self) -> str:
         """
         Formats the job information as a markdown string.
         """
         job_information = f"""
         # Job Description
-        ## Job Information 
+        ## Job Information
         - Position: {self.title}
         - At: {self.company}
         - Location: {self.location}
         - Recruiter Profile: {self.recruiter_link or 'Not available'}
-        
+
         ## Description
         {self.description or 'No description provided.'}
         """

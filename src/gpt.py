@@ -4,9 +4,9 @@ import re
 import textwrap
 from datetime import datetime
 from abc import ABC, abstractmethod
-from typing import Dict, List, Union
+from typing import Any, Dict, List, Union
 from pathlib import Path
-from dotenv import load_dotenv
+from dotenv import load_dotenv  # type: ignore
 from langchain_core.messages.ai import AIMessage
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompt_values import StringPromptValue
@@ -21,14 +21,15 @@ load_dotenv()
 class AIModel(ABC):
     @abstractmethod
     def invoke(self, prompt: str) -> str:
+        """Invoke the AI model with a given prompt."""
+        """Invoke the AI model with a given prompt."""
         pass
 
 class OpenAIModel(AIModel):
     def __init__(self, api_key: str, llm_model: str, llm_api_url: str):
-        from langchain_openai import ChatOpenAI
         self.model = ChatOpenAI(model_name=llm_model, openai_api_key=api_key,
                                 temperature=0.4, base_url=llm_api_url)
- 
+
     def invoke(self, prompt: str) -> str:
         print("invoke in openai")
         response = self.model.invoke(prompt)
@@ -57,12 +58,13 @@ class AIAdapter:
     def __init__(self, config: dict, api_key: str):
         self.model = self._create_model(config, api_key)
 
-    def _create_model(self, config: dict, api_key: str) -> AIModel:
-        llm_model_type = config['llm_model_type']
-        llm_model = config['llm_model']
-        llm_api_url = config['llm_api_url']
-        print('Using {0} with {1} from {2}'.format(llm_model_type, llm_model, llm_api_url))
-        
+    def _create_model(self, config: dict[str, Any], api_key: str) -> AIModel:
+        """Create an AI model based on the provided configuration."""
+        llm_model_type = config["llm_model_type"]
+        llm_model = config["llm_model"]
+        llm_api_url = config["llm_api_url"]
+        print("Using {0} with {1} from {2}".format(llm_model_type, llm_model, llm_api_url))
+
         if llm_model_type == "openai":
             return OpenAIModel(api_key, llm_model, llm_api_url)
         elif llm_model_type == "claude":
@@ -70,18 +72,19 @@ class AIAdapter:
         elif llm_model_type == "ollama":
             return OllamaModel(api_key, llm_model, llm_api_url)
         else:
-            raise ValueError(f"Unsupported model type: {model_type}")
+            raise ValueError(f"Unsupported model type: {llm_model_type}")
 
     def invoke(self, prompt: str) -> str:
         return self.model.invoke(prompt)
 
 class LLMLogger:
-    
+
     def __init__(self, llm: Union[OpenAIModel, OllamaModel, ClaudeModel]):
         self.llm = llm
 
     @staticmethod
-    def log_request(prompts, parsed_reply: Dict[str, Dict]):
+    def log_request(prompts: Union[StringPromptValue, Dict[str, Any]], parsed_reply: Dict[str, Dict[str, Any]]) -> None:
+        """Log the request and response details of an AI model invocation."""
         calls_log = os.path.join(Path("data_folder/output"), "open_ai_calls.json")
         if isinstance(prompts, StringPromptValue):
             prompts = prompts.text
@@ -139,6 +142,7 @@ class LoggerChatModel:
         self.llm = llm
 
     def __call__(self, messages: List[Dict[str, str]]) -> str:
+        """Call the LLM with the provided messages and log the response."""
         # Call the LLM with the provided messages and log the response.
         reply = self.llm.invoke(messages)
         parsed_reply = self.parse_llmresult(reply)
@@ -146,6 +150,7 @@ class LoggerChatModel:
         return reply
 
     def parse_llmresult(self, llmresult: AIMessage) -> Dict[str, Dict]:
+        """Parse the LLM result into a structured format."""
         # Parse the LLM result into a structured format.
         content = llmresult.content
         response_metadata = llmresult.response_metadata
@@ -179,6 +184,7 @@ class GPTAnswerer:
 
     @staticmethod
     def find_best_match(text: str, options: list[str]) -> str:
+        """Find the best matching option for a given text."""
         distances = [
             (option, distance(text.lower(), option.lower())) for option in options
         ]
@@ -187,25 +193,31 @@ class GPTAnswerer:
 
     @staticmethod
     def _remove_placeholders(text: str) -> str:
+        """Remove placeholders from a given text."""
         text = text.replace("PLACEHOLDER", "")
         return text.strip()
 
     @staticmethod
     def _preprocess_template_string(template: str) -> str:
+        """Preprocess a template string to remove unnecessary indentation."""
         # Preprocess a template string to remove unnecessary indentation.
         return textwrap.dedent(template)
 
-    def set_resume(self, resume):
+    def set_resume(self, resume: Any) -> None:
+        """Set the resume for the GPTAnswerer."""
         self.resume = resume
 
-    def set_job(self, job):
+    def set_job(self, job: Any) -> None:
+        """Set the job for the GPTAnswerer."""
         self.job = job
         self.job.set_summarize_job_description(self.summarize_job_description(self.job.description))
 
-    def set_job_application_profile(self, job_application_profile):
+    def set_job_application_profile(self, job_application_profile: Any) -> None:
+        """Set the job application profile for the GPTAnswerer."""
         self.job_application_profile = job_application_profile
-        
+
     def summarize_job_description(self, text: str) -> str:
+        """Summarize the job description using the AI model."""
         strings.summarize_prompt_template = self._preprocess_template_string(
             strings.summarize_prompt_template
         )
@@ -213,12 +225,14 @@ class GPTAnswerer:
         chain = prompt | self.llm_cheap | StrOutputParser()
         output = chain.invoke({"text": text})
         return output
-            
-    def _create_chain(self, template: str):
+
+    def _create_chain(self, template: str) -> Any:
+        """Create a processing chain for a given template."""
         prompt = ChatPromptTemplate.from_template(template)
         return prompt | self.llm_cheap | StrOutputParser()
-    
+
     def answer_question_textual_wide_range(self, question: str) -> str:
+        """Answer a question by determining the most relevant section of the resume."""
         # Define chains for each section of the resume
         chains = {
             "personal_information": self._create_chain(strings.personal_information_template),
@@ -238,7 +252,7 @@ class GPTAnswerer:
         section_prompt = """
         You are assisting a bot designed to automatically apply for jobs on LinkedIn. The bot receives various questions about job applications and needs to determine the most relevant section of the resume to provide an accurate response.
 
-        For the following question: '{question}', determine which section of the resume is most relevant. 
+        For the following question: '{question}', determine which section of the resume is most relevant.
         Respond with exactly one of the following options:
         - Personal information
         - Self Identification
@@ -340,6 +354,7 @@ class GPTAnswerer:
         return chain.invoke({"resume_section": resume_section, "question": question})
 
     def answer_question_numeric(self, question: str, default_experience: int = 3) -> int:
+        """Answer a numeric question based on the resume content."""
         func_template = self._preprocess_template_string(strings.numeric_question_template)
         prompt = ChatPromptTemplate.from_template(func_template)
         chain = prompt | self.llm_cheap | StrOutputParser()
@@ -350,7 +365,8 @@ class GPTAnswerer:
             output = default_experience
         return output
 
-    def extract_number_from_string(self, output_str):
+    def extract_number_from_string(self, output_str: str) -> int:
+        """Extract a number from a given string."""
         numbers = re.findall(r"\d+", output_str)
         if numbers:
             return int(numbers[0])
@@ -358,18 +374,20 @@ class GPTAnswerer:
             raise ValueError("No numbers found in the string")
 
     def answer_question_from_options(self, question: str, options: list[str]) -> str:
+        """Answer a question by selecting the best option from a list."""
         func_template = self._preprocess_template_string(strings.options_template)
         prompt = ChatPromptTemplate.from_template(func_template)
         chain = prompt | self.llm_cheap | StrOutputParser()
         output_str = chain.invoke({"resume": self.resume, "question": question, "options": options})
         best_option = self.find_best_match(output_str, options)
         return best_option
-    
+
     def resume_or_cover(self, phrase: str) -> str:
+        """Determine if a phrase is about a resume or a cover letter."""
         # Define the prompt template
         prompt_template = """
         Given the following phrase, respond with only 'resume' if the phrase is about a resume, or 'cover' if it's about a cover letter. Do not provide any additional information or explanations.
-        
+
         phrase: {phrase}
         """
         prompt = ChatPromptTemplate.from_template(prompt_template)

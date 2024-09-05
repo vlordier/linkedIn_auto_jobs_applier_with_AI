@@ -1,17 +1,39 @@
+# Ignore all CSV files
 *.csv
-__pycache__/**
-.idea/**
+
+# Ignore Python cache directories and files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Ignore IDE and editor directories and files
+.idea/
+.vscode/
+
+# Ignore virtual environments
+.venv/
+env/
+ENV/
+
+# Ignore log files
 open_ai_calls.log
 openaiSelenium*
 open_ai_calls.json
-_*
-.venv
+
+# Ignore generated files
 generated_cv*
-.vscode
-chrome_profile
 answers.json
 data*
+
+# Ignore chrome_profile
+chrome_profile/
+
+# Ignore coverage reports
 .coverage
+
+# Ignore mypy, ruff, pytest, and aider caches
 .mypy_cache/
 .ruff_cache/
 .pytest_cache/
+.aider*

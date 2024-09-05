@@ -1,27 +1,28 @@
-remote: [true/false]
+---
+remote: false
 
 experienceLevel:
- internship: [true/false]
- entry: [true/false]
- associate: [true/false]
- mid-senior level: [true/false]
- director: [true/false]
- executive: [true/false]
+  internship: [true, false]
+  entry: [true, false]
+  associate: [true, false]
+  mid-senior level: [true, false]
+  director: [true, false]
+  executive: [true, false]
 
 jobTypes:
- full-time: [true/false]
- contract: [true/false]
- part-time: [true/false]
- temporary: [true/false]
- internship: [true/false]
- other: [true/false]
- volunteer: [true/false]
+  full-time: [true, false]
+  contract: [true, false]
+  part-time: [true, false]
+  temporary: [true, false]
+  internship: [true, false]
+  other: [true, false]
+  volunteer: [true, false]
 
 date:
- all time: [true/false]
- month: [true/false]
- week: [true/false]
- 24 hours: [true/false]
+  all time: [true, false]
+  month: [true, false]
+  week: [true, false]
+  24 hours: [true, false]
 
 positions:
   - position1
@@ -40,7 +41,7 @@ companyBlacklist:
 titleBlacklist:
   - word1
   - word2
-  
+
 llm_model_type: openai
-llm_model: gpt-4o 
+llm_model: gpt-4o
 llm_api_url: https://api.pawan.krd/cosmosrp/v1

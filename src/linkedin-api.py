@@ -1,16 +1,15 @@
-from typing import Dict, List
+from typing import Dict, List, Optional, Union
+from typing_extensions import Literal
 from linkedin_api import Linkedin
-from typing import Optional, Union, Literal
-from urllib.parse import quote, urlencode
+from urllib.parse import urlencode
 import logging
-import json
 
 # set log to all debug
 logging.basicConfig(level=logging.INFO)
 
 class LinkedInEvolvedAPI(Linkedin):
     already_applied_jobs: List[str] = []
-    
+
     def __init__(self, username, password):
         super().__init__(username, password)
 
@@ -18,31 +17,8 @@ class LinkedInEvolvedAPI(Linkedin):
         self,
         keywords: Optional[str] = None,
         companies: Optional[List[str]] = None,
-        experience: Optional[
-            List[
-                Union[
-                    Literal["1"],
-                    Literal["2"],
-                    Literal["3"],
-                    Literal["4"],
-                    Literal["5"],
-                    Literal["6"],
-                ]
-            ]
-        ] = None,
-        job_type: Optional[
-            List[
-                Union[
-                    Literal["F"],
-                    Literal["C"],
-                    Literal["P"],
-                    Literal["T"],
-                    Literal["I"],
-                    Literal["V"],
-                    Literal["O"],
-                ]
-            ]
-        ] = None,
+        experience: Optional[List[Literal["1", "2", "3", "4", "5", "6"]]] = None,
+        job_type: Optional[List[Literal["F", "C", "P", "T", "I", "V", "O"]]] = None,
         job_title: Optional[List[str]] = None,
         industries: Optional[List[str]] = None,
         location_name: Optional[str] = None,
@@ -89,7 +65,7 @@ class LinkedInEvolvedAPI(Linkedin):
         if limit is None:
             limit = -1
 
-        query: Dict[str, Union[str, Dict[str, str]]] = {
+        query: dict[str, Union[str, dict[str, str]]] = {
             "origin": "JOB_SEARCH_PAGE_QUERY_EXPANSION"
         }
         if keywords:
@@ -154,7 +130,7 @@ class LinkedInEvolvedAPI(Linkedin):
                     e["job_id"] = trackingUrn
                 if e.get("$type") == "com.linkedin.voyager.dash.jobs.JobPosting":
                     new_data.append(e)
-                
+
             if not new_data:
                 break
             results.extend(new_data)
@@ -167,7 +143,7 @@ class LinkedInEvolvedAPI(Linkedin):
             self.logger.debug(f"results grew to {len(results)}")
 
         return results
-    
+
     def get_fields_for_easy_apply(self,job_id: str) -> List[Dict]:
         """Get fields needed for easy apply jobs.
 
@@ -181,7 +157,7 @@ class LinkedInEvolvedAPI(Linkedin):
         cookie_str = "; ".join([f"{k}={v}" for k, v in cookies.items()])
 
         headers: Dict[str, str] = self._headers()
-        
+
 
         headers["Accept"] = "application/vnd.linkedin.normalized+json+2.1"
         headers["csrf-token"] = cookies["JSESSIONID"].replace('"', "")
@@ -217,45 +193,45 @@ class LinkedInEvolvedAPI(Linkedin):
         except ValueError:
             self.logger.error("Failed to parse JSON response")
             return []
-        
+
         form_components = []
 
         for item in data.get("included", []):
-            if 'formComponent' in item:                
-                urn = item['urn']
+            if "formComponent" in item:
+                urn = item["urn"]
                 try:
-                    title = item['title']['text']
+                    title = item["title"]["text"]
                 except TypeError:
                     title = urn
-                
-                form_component_type = list(item['formComponent'].keys())[0]
-                form_component_details = item['formComponent'][form_component_type]
-                
+
+                form_component_type = list(item["formComponent"].keys())[0]
+                form_component_details = item["formComponent"][form_component_type]
+
                 component_info = {
-                    'title': title,
-                    'urn': urn,
-                    'formComponentType': form_component_type,
+                    "title": title,
+                    "urn": urn,
+                    "formComponentType": form_component_type,
                 }
-                
-                if 'textSelectableOptions' in form_component_details:
+
+                if "textSelectableOptions" in form_component_details:
                     options = [
-                        opt['optionText']['text'] for opt in form_component_details['textSelectableOptions']
+                        opt["optionText"]["text"] for opt in form_component_details["textSelectableOptions"]
                     ]
-                    component_info['selectableOptions'] = options
-                elif 'selectableOptions' in form_component_details:
+                    component_info["selectableOptions"] = options
+                elif "selectableOptions" in form_component_details:
                     options = [
-                        opt['textSelectableOption']['optionText']['text'] 
-                        for opt in form_component_details['selectableOptions']
+                        opt["textSelectableOption"]["optionText"]["text"]
+                        for opt in form_component_details["selectableOptions"]
                     ]
-                    component_info['selectableOptions'] = options
-                
+                    component_info["selectableOptions"] = options
+
                 form_components.append(component_info)
 
         return form_components
-    
+
     def apply_to_job(self,job_id: str, fields: dict, followCompany: bool = True) -> bool:
         return False
-    
+
         # ToDo: Implement apply to job parser first
         # How need to be implemented:
         # 1. Get fields for easy apply job from the previous method (get_fields_for_easy_apply)
@@ -265,7 +241,7 @@ class LinkedInEvolvedAPI(Linkedin):
         # {'title': 'Quanti anni di esperienza di lavoro hai con Router?', 'urn': 'urn:li:fsd_formElement:urn:li:jobs_applyformcommon_easyApplyFormElement:(4013860791,9478711764,numeric)', 'formComponentType': 'singleLineTextFormComponent', 'response': '5'}
         # To fill, you can temporary use input() function to get the data from the user manually for testing purposes (for the further implementation, the question will be asked to AI implementation and automatically filled)
         # Build a working payload.
-        
+
         # EXAMPLE OF WORKING PAYLOAD
         # 4005350454 is job_id, so need to be replaced with the job_id
 
@@ -352,19 +328,19 @@ class LinkedInEvolvedAPI(Linkedin):
         #}
 
         # Push the commit to the repository and create a pull request to the v3 branch.
-        
+
     def set_job_as_applied(self, job_id: str) -> None:
         self.already_applied_jobs.append(job_id)
 
-        
-            
+
+
 
 
 
 
 ## EXAMPLE USAGE
 if __name__ == "__main__":
-    api: LinkedInEvolvedAPI = LinkedInEvolvedAPI(username="", password="")  
+    api: LinkedInEvolvedAPI = LinkedInEvolvedAPI(username="", password="")
     jobs = api.search_jobs(keywords="Frontend Developer", location_name="Italia", limit=5, easy_apply=True, offset=1)
     for job in jobs:
         job_id: str = job["job_id"]
@@ -376,7 +352,3 @@ if __name__ == "__main__":
         for field in fields:
             print(field)
         break
-
-        
-
-    

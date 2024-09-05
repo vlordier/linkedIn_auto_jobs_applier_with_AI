@@ -1,6 +1,6 @@
 import argparse
 import yaml
-from openai import OpenAI
+from openai import OpenAI  # type: ignore
 import os
 from typing import Dict, Any
 import re
@@ -8,26 +8,30 @@ from jsonschema import validate, ValidationError
 from pdfminer.high_level import extract_text
 
 def load_yaml(file_path: str) -> Dict[str, Any]:
-    with open(file_path, 'r') as file:
+    """Load and return the contents of a YAML file."""
+    with open(file_path, "r") as file:
         return yaml.safe_load(file)
 
 def load_resume_text(file_path: str) -> str:
-    with open(file_path, 'r') as file:
+    """Load and return the text content of a resume file."""
+    with open(file_path, "r") as file:
         return file.read()
 
 def get_api_key() -> str:
-    secrets_path = os.path.join('data_folder', 'secrets.yaml')
+    """Retrieve the OpenAI API key from the secrets file."""
+    secrets_path = os.path.join("data_folder", "secrets.yaml")
     if not os.path.exists(secrets_path):
         raise FileNotFoundError(f"Secrets file not found at {secrets_path}")
-    
+
     secrets = load_yaml(secrets_path)
-    api_key = secrets.get('openai_api_key')
+    api_key = secrets.get("openai_api_key")
     if not api_key:
         raise ValueError("OpenAI API key not found in secrets.yaml")
-    
+
     return api_key
 
 def generate_yaml_from_resume(resume_text: str, schema: Dict[str, Any], api_key: str) -> str:
+    """Generate a YAML file from the resume text using the provided schema and API key."""
     client = OpenAI(api_key=api_key)
 
     prompt = f"""
@@ -86,19 +90,21 @@ def generate_yaml_from_resume(resume_text: str, schema: Dict[str, Any], api_key:
     )
 
     yaml_content = response.choices[0].message.content.strip()
-    
+
     # Extract YAML content from between the tags
-    match = re.search(r'<resume_yaml>(.*?)</resume_yaml>', yaml_content, re.DOTALL)
+    match = re.search(r"<resume_yaml>(.*?)</resume_yaml>", yaml_content, re.DOTALL)
     if match:
         return match.group(1).strip()
     else:
         raise ValueError("YAML content not found in the expected format")
 
-def save_yaml(data: str, output_file: str):
-    with open(output_file, 'w') as file:
+def save_yaml(data: str, output_file: str) -> None:
+    """Save the given YAML data to a file."""
+    with open(output_file, "w") as file:
         file.write(data)
 
 def validate_yaml(yaml_content: str, schema: Dict[str, Any]) -> Dict[str, Any]:
+    """Validate the YAML content against the provided schema."""
     try:
         yaml_dict = yaml.safe_load(yaml_content)
         validate(instance=yaml_dict, schema=schema)
@@ -106,7 +112,8 @@ def validate_yaml(yaml_content: str, schema: Dict[str, Any]) -> Dict[str, Any]:
     except ValidationError as e:
         return {"valid": False, "errors": str(e)}
 
-def generate_report(validation_result: Dict[str, Any], output_file: str):
+def generate_report(validation_result: Dict[str, Any], output_file: str) -> None:
+    """Generate a validation report for the YAML content."""
     report = f"Validation Report for {output_file}\n"
     report += "=" * 40 + "\n"
     if validation_result["valid"]:
@@ -114,13 +121,15 @@ def generate_report(validation_result: Dict[str, Any], output_file: str):
     else:
         report += "YAML is not valid. Errors:\n"
         report += validation_result["errors"] + "\n"
-    
+
     print(report)
 
 def pdf_to_text(pdf_path: str) -> str:
+    """Convert a PDF file to text."""
     return extract_text(pdf_path)
 
-def main():
+def main() -> None:
+    """Main function to generate a resume YAML file from a PDF or text resume."""
     parser = argparse.ArgumentParser(description="Generate a resume YAML file from a PDF or text resume using OpenAI API")
     parser.add_argument("--input", required=True, help="Path to the input resume file (PDF or TXT)")
     parser.add_argument("--output", default="data_folder/plain_text_resume.yaml", help="Path to the output YAML file")
@@ -131,9 +140,9 @@ def main():
         schema = load_yaml("assets/resume_schema.yaml")
 
         # Check if input is PDF or TXT
-        if args.input.lower().endswith('.pdf'):
+        if args.input.lower().endswith(".pdf"):
             resume_text = pdf_to_text(args.input)
-            print(f"PDF resume converted to text successfully.")
+            print("PDF resume converted to text successfully.")
         else:
             resume_text = load_resume_text(args.input)
 

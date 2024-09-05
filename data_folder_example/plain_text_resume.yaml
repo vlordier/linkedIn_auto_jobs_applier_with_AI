@@ -1,3 +1,4 @@
+---
 personal_information:
   name: "Liam"
   surname: "Murphy"
@@ -10,7 +11,7 @@ personal_information:
   email: "liam.murphy@gmail.com"
   github: "https://github.com/liam-murphy"
   linkedin: "https://www.linkedin.com/in/liam-murphy/"
-  
+
 education_details:
   - degree: "Bachelor's Degree"
     university: "National University of Ireland, Galway"
@@ -31,9 +32,12 @@ experience_details:
     location: "Ireland"
     industry: "Blockchain Technology"
     key_responsibilities:
-      - responsibility_1: "Co-founded and led a startup specializing in app and software development with a focus on blockchain technology"
-      - responsibility_2: "Provided blockchain consultations for 10+ companies, enhancing their software capabilities with secure, decentralized solutions"
-      - responsibility_3: "Developed blockchain applications, integrated cutting-edge technology to meet client needs and drive industry innovation"
+      - responsibility_1: "Co-founded and led a startup specializing in app and software development"
+      - responsibility_1_continued: "with a focus on blockchain"
+      - responsibility_2: "Provided blockchain consultations for 10+ companies, enhancing their \
+        software capabilities with secure solutions"
+      - responsibility_3: "Developed blockchain applications, integrated cutting-edge technology to \
+        meet client needs and drive innovation"
     skills_acquired:
       - "Blockchain development"
       - "Software engineering"
@@ -45,10 +49,10 @@ experience_details:
     location: "Galway, Ireland"
     industry: "IoT Security Research"
     key_responsibilities:
-      - responsibility_1: "Conducted in-depth research on IoT security, focusing on binary instrumentation and runtime monitoring"
+      - responsibility_1: "Conducted in-depth research on IoT security, focusing on binary instrumentation and monitoring"
       - responsibility_2: "Performed in-depth study of the MQTT protocol and Falco"
-      - responsibility_3: "Developed multiple software components including MQTT packet analysis library, Falco adapter, and RML monitor in Prolog"
-      - responsibility_4: "Authored thesis 'Binary Instrumentation for Runtime Monitoring of Internet of Things Systems Using Falco'"
+      - responsibility_3: "Developed software components including MQTT packet analysis library, Falco adapter, and RML monitor in Prolog"
+      - responsibility_4: "Authored thesis 'Binary Instrumentation for Runtime Monitoring of IoT Systems Using Falco'"
     skills_acquired:
       - "IoT security"
       - "Binary instrumentation"
@@ -62,8 +66,8 @@ experience_details:
     industry: "Healthcare IT"
     key_responsibilities:
       - responsibility_1: "Integrated and enforced robust security protocols"
-      - responsibility_2:  "Developed and maintained a critical software tool for password validation used by over 1,600 employees"
-      - responsibility_3:  "Played an integral role in the hospital's cybersecurity team"
+      - responsibility_2: "Developed and maintained a critical software tool for password validation used by over 1,600 employees"
+      - responsibility_3: "Played an integral role in the hospital's cybersecurity team"
     skills_acquired:
       - "Cybersecurity"
       - "Software development"
@@ -74,7 +78,8 @@ projects:
     description: "AI-driven tool to automate and personalize job applications on LinkedIn, gained over 3000 stars on GitHub, improving efficiency and reducing application time"
     link: "https://github.com/liam-murphy/jobbot"
   - name: "mqtt-packet-parser"
-    description: "Developed a Node.js module for parsing MQTT packets, improved parsing efficiency by 40%"
+    description: "Developed a Node.js module for parsing MQTT packets, improved parsing efficiency \
+      by 40%"
     link: "https://github.com/liam-murphy/mqtt-packet-parser"
 
 achievements:

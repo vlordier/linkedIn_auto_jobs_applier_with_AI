@@ -14,7 +14,7 @@
 <br />
 
 <!-- Message Clarity -->
-## 🚀 Join the AIHawk Community 🚀 
+## 🚀 Join the AIHawk Community 🚀
 
 Connect with like-minded individuals and get the most out of AIHawk.
 
@@ -93,7 +93,7 @@ LinkedIn_AIHawk steps in as a game-changing solution to these challenges. It's n
    - Detailed application tracking
 
 5. **Intelligent Filtering and Blacklisting**
-   - Company blacklist to avoid unwanted employers
+   - Company blocklist to avoid unwanted employers
    - Title filtering to focus on relevant positions
 
 6. **Dynamic Resume Generation**
@@ -219,18 +219,18 @@ This file defines your job search parameters and bot behavior. Each section cont
 
 - `llm_model_type`:
   - Choose the model type, supported: openai / ollama / claude
-- `llm_model`: 
-  - Choose the LLM model, currently supported: 
+- `llm_model`:
+  - Choose the LLM model, currently supported:
     - openai: gpt-4o
     - ollama: llama2, mistral:v0.3
-    - claude: any model 
-- `llm_api_url`: 
+    - claude: any model
+- `llm_api_url`:
   - Link of the API endpoint for the LLM model
     - openai: https://api.pawan.krd/cosmosrp/v1
     - ollama: http://127.0.0.1:11434/
     - claude: https://api.anthropic.com/v1
  - Note: To run local Ollama, follow the guidelines here: [Guide to Ollama deployment](https://github.com/ollama/ollama)
-  
+
 ### 3. plain_text_resume.yaml
 
 This file contains your resume information in a structured format. Fill it out with your personal details, education, work experience, and skills. This information is used to auto-fill application forms and generate customized resumes.
@@ -245,7 +245,7 @@ Each section has specific fields to fill out:
     - **country**: The country where you currently reside.
     - **city**: The city where you currently live.
     - **address**: Your full address, including street and number.
-    - **phone_prefix**: The international dialing code for your phone number (e.g., +1 for the USA, +44 for the UK).
+    - **phone_prefix**: The international dialing code for your phone number (for example, +1 for the USA, +44 for the UK).
     - **phone**: Your phone number without the international prefix.
     - **email**: Your primary email address.
     - **github**: URL to your GitHub profile, if applicable.
@@ -268,7 +268,7 @@ Each section has specific fields to fill out:
 
 - `education_details:`
   - This section outlines your academic background, including degrees earned and relevant coursework.
-    - **degree**: The type of degree obtained (e.g., Bachelor's Degree, Master's Degree).
+    - **degree**: The type of degree obtained (for example, Bachelor's Degree, Master's Degree).
     - **university**: The name of the university or institution where you studied.
     - **gpa**: Your Grade Point Average or equivalent measure of academic performance.
     - **graduation_year**: The year you graduated.
@@ -295,7 +295,7 @@ Each section has specific fields to fill out:
   - This section details your work experience, including job roles, companies, and key responsibilities.
     - **position**: Your job title or role.
     - **company**: The name of the company or organization where you worked.
-    - **employment_period**: The timeframe during which you were employed in the role (e.g., MM/YYYY - MM/YYYY).
+    - **employment_period**: The timeframe during which you were employed in the role (for example, MM/YYYY - MM/YYYY).
     - **location**: The city and country where the company is located.
     - **industry**: The industry or field in which the company operates.
     - **key_responsibilities**: A list of major responsibilities or duties you had in the role.
@@ -323,7 +323,7 @@ Each section has specific fields to fill out:
   - Include notable projects you have worked on, including personal or professional projects.
     - **name**: The name or title of the project.
     - **description**: A brief summary of what the project involves or its purpose.
-    - **link**: URL to the project, if available (e.g., GitHub repository, website).
+    - **link**: URL to the project, if available (for example, GitHub repository, website).
 
    - Example:
     ```yaml
@@ -364,7 +364,7 @@ Each section has specific fields to fill out:
 - `languages:`
   - Detail the languages you speak and your proficiency level in each.
     - **language**: The name of the language.
-    - **proficiency**: Your level of proficiency (e.g., Native, Fluent, Intermediate).
+    - **proficiency**: Your level of proficiency (for example, Native, Fluent, Intermediate).
 
   - Example:
   ```yaml
@@ -392,7 +392,7 @@ Each section has specific fields to fill out:
 
 - `availability:`
   - State your current availability or notice period.
-    - **notice_period**: The amount of time required before you can start a new role (e.g., "2 weeks", "1 month").
+    - **notice_period**: The amount of time required before you can start a new role (for example, "2 weeks", "1 month").
 
   - Example:
   ```yaml
@@ -413,9 +413,9 @@ Each section has specific fields to fill out:
 - `self_identification:`
   - Provide information related to personal identity, including gender and pronouns.
     - **gender**: Your gender identity.
-    - **pronouns**: The pronouns you use (e.g., He/Him, She/Her, They/Them).
-    - **veteran**: Your status as a veteran (e.g., Yes, No).
-    - **disability**: Whether you have a disability (e.g., Yes, No).
+    - **pronouns**: The pronouns you use (for example, He/Him, She/Her, They/Them).
+    - **veteran**: Your status as a veteran (for example, Yes, No).
+    - **disability**: Whether you have a disability (for example, Yes, No).
     - **ethnicity**: Your ethnicity.
 
   - Example:
@@ -519,7 +519,7 @@ Using this folder as a guide can be particularly helpful for:
 ## Usage
 0. **LinkedIn language**
    To ensure the bot works, your LinkedIn language must be set to English.
-   
+
 2. **Data Folder:**
    Ensure that your data_folder contains the following files:
    - `secrets.yaml`
