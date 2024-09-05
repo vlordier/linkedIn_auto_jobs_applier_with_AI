@@ -2,7 +2,6 @@
 __pycache__/**
 .idea/**
 open_ai_calls.log
-test*
 openaiSelenium*
 open_ai_calls.json
 _*
@@ -12,3 +11,7 @@ generated_cv*
 chrome_profile
 answers.json
 data*
+.coverage
+.mypy_cache/**
+.ruff_cache/**
+.pytest_cache/**
