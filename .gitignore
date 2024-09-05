@@ -1,6 +1,9 @@
 # Ignore all CSV files
 *.csv
 
+# Ignore data_folder
+data_folder/ 
+
 # Ignore Python cache directories and files
 __pycache__/
 *.py[cod]
